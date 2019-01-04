@@ -1,0 +1,39 @@
+<!--index.wxml-->
+<view class="type-container">
+  <scroll-view class="type-navbar" scroll-x="true">
+    <view class="type-box" wx:for-items="{{categories}}" wx:key="id">
+      <view id="{{item.id}}" class="type-navbar-item {{activeCategoryId == item.id ? 'type-item-on': ''}}" bindtap="tabClick">
+        {{item.buildingName}}
+      </view>
+    </view>
+  </scroll-view>
+
+  <view class='weui-cells top' wx:for-items="{{labs}}" wx:key="id">
+    <view class='weui-cell weui-cell_access' bindtap='getLabDetail' id="{{item.id}}">
+      <view class='weui-cell__hd'>
+        <image src='{{item.image}}' class='item-pic'></image>
+      </view>
+      <view class='weui-cell__bd lab_item'>
+        <view>{{item.labName}}</view>
+        <view class='pcNum'>{{item.numOfSeats}}台</view>
+        <view>
+          <button size='mini' type='default' class="{{isUse ? '': 'type-btn-on'}}">空闲中</button>
+        </view>
+        <view>
+          <button size='mini' type='warn' class='order' bindtap='order'>立即预约</button>
+        </view>
+      </view>
+      <view class='weui-cell__ft'>
+        <image src='../../images/arrow-right.png' class="arrow"></image>
+      </view>
+    </view>
+  </view>
+
+  <!-- <button wx:if="{{canIUse}}" open-type='getUserInfo' bindgetuserinfo='onGotUserInfo'>授权登陆</button>
+<view wx:else>请升级微信</view> -->
+
+
+<view class='weui-loadmore weui-loadmore_line' hidden='{{loadingMoreHidden ? true : false}}'>
+  <span class="weui-loadmore__tips">没有更多的实验室啦</span>
+</view>
+</view>

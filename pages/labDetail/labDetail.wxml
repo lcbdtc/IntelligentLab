@@ -1,0 +1,19 @@
+<!--pages/labDetail/labDetail.wxml-->
+<view class='container'>
+  <block class='top'>
+    <image src='{{labDetail.image}}' class='top-pic'></image>
+    <text class='top-text'>{{labDetail.labName}}</text>
+  </block>
+  <view class='lab-intro'>
+    <view class='lab-title'>
+      <view class='title-line'></view>
+      <text class='title-text'>实验室介绍</text>
+    </view>
+    <view class='lab-detail'>{{labDetail.intro}}</view>
+  </view>
+
+  <view class='btn-order'>
+    <!-- <button class='weui-btn weui-btn_warn'>button</button> -->
+    <button type='warn' class='order' bindtap='order'>立即预约</button>
+  </view>
+</view>

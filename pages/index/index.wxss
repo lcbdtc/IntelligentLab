@@ -1,0 +1,63 @@
+/**index.wxss**/
+
+.type-container {
+}
+
+.type-navbar {
+  white-space: nowrap;
+  height: 88rpx;
+  width: 100%;
+  background-color: #fff;
+}
+
+.type-box {
+  display: inline-block;
+  overflow: hidden;
+  width: 160rpx;
+  box-sizing: content-box;
+  font-size: 24rpx;
+  line-height: 84rpx;
+  text-align: center;
+}
+
+.item-pic {
+  width: 250rpx;
+  height: 200rpx;
+  margin-right: 30rpx;
+  border-radius: 20rpx;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  color: transparent;
+}
+
+.type-navbar-item {
+  border-bottom: 4rpx solid #fff;
+}
+
+.type-item-on {
+  border-bottom: 4rpx solid #e64340;
+}
+
+.arrow {
+  width: 35rpx;
+  height: 38rpx;
+  padding-top: 15rpx;
+}
+
+.top {
+  margin-top: 0;
+}
+
+.pcNum {
+  color: #b9b5b5;
+}
+
+.isUse {
+}
+
+.order {
+  margin-top: 20rpx;
+}

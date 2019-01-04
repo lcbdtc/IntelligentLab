@@ -1,0 +1,52 @@
+/* pages/labDetail/labDetail.wxss */
+
+.top {
+}
+
+.top-pic {
+  width: 100%;
+  height: 350rpx;
+}
+
+.top-text {
+  position: absolute;
+  z-index: 1;
+  top: 280rpx;
+  left: 40rpx;
+  color: white;
+  font-size: 40rpx;
+  font-weight: 600;
+}
+
+.lab-intro {
+  margin-top: 28rpx;
+  background-color: white;
+}
+
+
+.lab-intro .lab-title {
+  box-sizing: border-box;
+  padding: 20rpx 30rpx;
+  margin-bottom: 28rpx;
+  padding-right: 60rpx;
+  color: #000;
+}
+.title-line {
+  padding-top: 35rpx;
+  width: 10rpx;
+  height: 25rpx;
+  background-color: #c00;
+  float: left;
+}
+.title-text{
+  padding-left: 20rpx;
+  font-size: 32rpx;
+}
+
+
+.lab-detail {
+  font-size: 32rpx;
+  box-sizing:border-box;
+  padding-left: 55rpx;
+  padding-right: 55rpx;
+}

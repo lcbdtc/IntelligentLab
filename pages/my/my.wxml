@@ -1,0 +1,31 @@
+<!--pages/my/my.wxml-->
+<view class='container'>
+  <view class="userinfo">
+    <image wx:if="{{userInfo && userInfo.avatarUrl}}" class="userinfo-avatar" src="{{ userInfo.avatarUrl }}" background-size="cover"></image>
+    <text class="userinfo-nickname">{{ userInfo.nickName }}</text>
+  </view>
+  <view style="height:20rpx;background: #eee;width:100%;"></view>
+  <!-- <view class="my-item">
+    <navigator url="/pages/userInfo/userInfo" hover-class="navigator-hover">个人信息</navigator>
+  </view>
+   <view class="my-item">
+    <navigator url="/pages/myCourse/myCourse" hover-class="navigator-hover">我的课程</navigator>
+  </view> -->
+
+  <view class='weui-cells'>
+    <view class='weui-cell weui-cell_access' bindtap='navToUserInfo'>
+      <view class='weui-cell__bd'>个人信息</view>
+      <view class='weui-cell__ft'>
+        <image src='../../images/arrow-right.png' class="arrow"></image>
+      </view>
+    </view>
+  </view>
+  <view class='weui-cells'>
+    <view class='weui-cell weui-cell_access' bindtap='navToMyCourse'>
+      <view class='weui-cell__bd'>我的课程</view>
+      <view class='weui-cell__ft'>
+        <image src='../../images/arrow-right.png' class="arrow"></image>
+      </view>
+    </view>
+  </view>
+</view>
