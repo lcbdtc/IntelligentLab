@@ -6,148 +6,55 @@
     <button class='btn_week' type='primary' bindtap='nextToWeek'>下一周</button>
   </view>
 
-    <view class='weui-cells'>
-      <view class='weui-cell weui-cell_access' bindtap='navToUserInfo'>
-        <view class='weui-cell__bd'>
-          <picker bindchange="bindPickerChange" value="{{weekIndex}}" range="{{weekInfo}}" range-key="weekItem">
-            <view class="picker">
-              {{weekInfo[weekIndex].weekItem}}
-            </view>
-          </picker>
-        </view>
-        <view class='weui-cell__ft'>
-          <image class="type-icon" src="../../images/arrow-bottom.png"></image>
-        </view>
+  <view class='weui-cells'>
+    <view class='weui-cell weui-cell_access' bindtap='navToUserInfo'>
+      <view class='weui-cell__bd'>
+        <picker bindchange="bindPickerChange" value="{{weekIndex}}" range="{{weekInfo}}" range-key="weekItem">
+          <view class="picker">
+            {{weekInfo[weekIndex].weekItem}}
+          </view>
+        </picker>
+      </view>
+      <view class='weui-cell__ft'>
+        <image class="type-icon" src="../../images/arrow-bottom.png"></image>
       </view>
     </view>
+  </view>
 
-    <scroll-view scroll-x="true" class='scrollClass'>
-      <view class='table'>
-        <view class='table_header'>
-          <view class="th" style='width:130rpx;background-color:white'>
-            <view class='centerclass cell_label'>排班</view>
+  <scroll-view scroll-x="true" class='scrollClass'>
+    <view class='table'>
+      <view class='table_header'>
+        <view class="th" style='width:130rpx;background-color:white'>
+          <view class='centerclass cell_label'>排班</view>
+        </view>
+        <block wx:for="{{dateArray}}" wx:key="{{index}}">
+          <view class='th'>
+            <view class="cell_label centerclass">{{item.weekName}}</view>
+            <view class="cell_date_label centerclass">{{item.date_text}}</view>
           </view>
-          <block wx:for="{{dateArray}}" wx:key="{{index}}">
-            <view class='th'>
-              <view class="cell_label centerclass">{{item.weekName}}</view>
-               <view class="cell_date_label centerclass">{{item.date_text}}</view>
-            </view>
-          </block>
+        </block>
+      </view>
+
+      <view class="table-content">
+        <view class="table_item">
+          <view class="td" style='width:130rpx;background-color:white' wx:for="{{time_arr}}" wx:key="{{index}}">
+            <view class='centerclass cell_label'>{{item}}</view>
+          </view>
         </view>
 
-        <block class="table-content">
-          <view class="table_item">
-            <view class="th" style='width:130rpx;background-color:white'>
-              <view class='centerclass cell_label'>{{sch_list.time_arr[0]}}</view>
-            </view>
-            <block wx:for="{{sch_list.arr_1}}" wx:key="{{index}}">
-              <view class='th'>
-                <view class="cell_label centerclass">{{item?'已预约':''}}</view>
-              </view>
-            </block>
-          </view>
-
-          <view class="table_item">
-            <view class="th" style='width:130rpx;background-color:white'>
-              <view class='centerclass cell_label'>{{sch_list.time_arr[1]}}</view>
-            </view>
-            <block wx:for="{{sch_list.arr_2}}" wx:key="{{index}}">
-              <view class='th'>
-                <view class="cell_label centerclass">{{item?'已预约':''}}</view>
-              </view>
-            </block>
-          </view>
-          
-          <view class="table_item">
-            <view class="th" style='width:130rpx;background-color:white'>
-              <view class='centerclass cell_label'>{{sch_list.time_arr[2]}}</view>
-            </view>
-            <block wx:for="{{sch_list.arr_3}}"  wx:key="{{index}}">
-              <view class='th'>
-                <view class="cell_label centerclass">{{item?'已预约':''}}</view>
-              </view>
-            </block>
-          </view>
-
-          <view class="table_item">
-            <view class="th" style='width:130rpx;background-color:white'>
-              <view class='centerclass cell_label'>{{sch_list.time_arr[3]}}</view>
-            </view>
-            <block wx:for="{{sch_list.arr_4}}" wx:key="{{index}}">
-              <view class='th'>
-                <view class="cell_label centerclass">{{item?'已预约':''}}</view>
-              </view>
-            </block>
-          </view>
-
-          <view class="table_item">
-            <view class="th" style='width:130rpx;background-color:white'>
-              <view class='centerclass cell_label'>{{sch_list.time_arr[4]}}</view>
-            </view>
-            <block wx:for="{{sch_list.arr_5}}" wx:key="{{index}}">
-              <view class='th'>
-                <view class="cell_label centerclass">{{item?'已预约':''}}</view>
-              </view>
-            </block>
-          </view>
-
-          <view class="table_item">
-            <view class="th" style='width:130rpx;background-color:white'>
-              <view class='centerclass cell_label'>{{sch_list.time_arr[5]}}</view>
-            </view>
-            <block wx:for="{{sch_list.arr_6}}" wx:key="{{index}}">
-              <view class='th'>
-                <view class="cell_label centerclass">{{item?'已预约':''}}</view>
-              </view>
-            </block>
-          </view>
-
-          <view class="table_item">
-            <view class="th" style='width:130rpx;background-color:white'>
-              <view class='centerclass cell_label'>{{sch_list.time_arr[6]}}</view>
-            </view>
-            <block wx:for="{{sch_list.arr_7}}" wx:key="{{index}}">
-              <view class='th'>
-                <view class="cell_label centerclass">{{item?'已预约':''}}</view>
-              </view>
-            </block>
-          </view>
-
-          <view class="table_item">
-            <view class="th" style='width:130rpx;background-color:white'>
-              <view class='centerclass cell_label'>{{sch_list.time_arr[7]}}</view>
-            </view>
-            <block wx:for="{{sch_list.arr_8}}" wx:key="{{index}}">
-              <view class='th'>
-                <view class="cell_label centerclass">{{item?'已预约':''}}</view>
-              </view>
-            </block>
-          </view>
-
-          <view class="table_item">
-            <view class="th" style='width:130rpx;background-color:white'>
-              <view class='centerclass cell_label'>{{sch_list.time_arr[8]}}</view>
-            </view>
-            <block wx:for="{{sch_list.arr_8}}" wx:key="{{index}}">
-              <view class='th'>
-                <view class="cell_label centerclass">{{item?'已预约':''}}</view>
-              </view>
-            </block>
-          </view>
-
-          <view class="table_item">
-            <view class="th" style='width:130rpx;background-color:white'>
-              <view class='centerclass cell_label'>{{sch_list.time_arr[9]}}</view>
-            </view>
-            <block wx:for="{{sch_list.arr_10}}" wx:key="{{index}}">
-              <view class='th'>
-                <view class="cell_label centerclass">{{item?'已预约':''}}</view>
+        <block wx:for="{{reserve_list}}" wx:key="{{index}}">
+          <view class='table_item' bindtap="tapDialog" id="{{index}}">
+            <block wx:for="{{item}}" wx:key="{{index}}">
+              <view class='td'>
+                <view class="centerclass cell_label">{{item?'已预约':'空闲'}}</view>
               </view>
             </block>
           </view>
         </block>
       </view>
-    </scroll-view>
+    </view>
+  </scroll-view>
+  <dialog id="dialog" bind:cancelEvent="cancelEvent" bind:okEvent="okEvent"></dialog>
 
 
 </view>

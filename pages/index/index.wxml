@@ -19,9 +19,9 @@
         <view>
           <button size='mini' type='default' class="{{isUse ? '': 'type-btn-on'}}">空闲中</button>
         </view>
-        <view>
-          <button size='mini' type='warn' class='order' bindtap='order'>立即预约</button>
-        </view>
+        <!-- <view>
+          <button size='mini' type='warn' class='order' bindtap='order' id="{{item.id}}">立即预约</button>
+        </view> -->
       </view>
       <view class='weui-cell__ft'>
         <image src='../../images/arrow-right.png' class="arrow"></image>
@@ -29,11 +29,15 @@
     </view>
   </view>
 
+  <view>
+    <button bindtap="tapDialog">显示弹出框</button>
+    <dialog id="dialog" bind:cancelEvent="cancelEvent" bind:okEvent="okEvent"></dialog>
+  </view>
   <!-- <button wx:if="{{canIUse}}" open-type='getUserInfo' bindgetuserinfo='onGotUserInfo'>授权登陆</button>
 <view wx:else>请升级微信</view> -->
 
 
-<view class='weui-loadmore weui-loadmore_line' hidden='{{loadingMoreHidden ? true : false}}'>
-  <span class="weui-loadmore__tips">没有更多的实验室啦</span>
-</view>
+  <view class='weui-loadmore weui-loadmore_line' hidden='{{loadingMoreHidden ? true : false}}'>
+    <span class="weui-loadmore__tips">没有更多的实验室啦</span>
+  </view>
 </view>

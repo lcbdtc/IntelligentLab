@@ -1,0 +1,26 @@
+<!--pages/component/dialog/dialog.wxml-->
+<view hidden='{{!isShow}}'>
+  <view class="ys-mask"></view>
+  <view class="ys-dialog">
+    <view class="ys-dialog-title">{{title}}</view>
+
+    <view class="ys-dialog-content">
+      <checkbox-group class="group" bindchange="checkboxChange">
+        <view class="label-1" wx:for="{{content}}">
+          <label>
+            <checkbox hidden value="{{item.name}}" checked="{{item.checked}}"></checkbox>
+            <view class="label-1__icon">
+              <view class="label-1__icon-checked" style="opacity:{{item.checked ? 1: 0}}"></view>
+            </view>
+            <text class="label-1__text">{{item.name}}</text>
+          </label>
+        </view>
+      </checkbox-group>
+    </view>
+
+    <view class="ys-dialog-bottom">
+      <view class="ys-dialog-btn" catchtap="_cancelEvent">{{cancelText}}</view>
+      <view class="ys-dialog-btn ys-dialog-ok-btn" catchtap="_okEvent">{{okText}}</view>
+    </view>
+  </view>
+</view>

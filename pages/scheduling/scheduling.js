@@ -1,3 +1,5 @@
+const app = getApp()
+
 // pages/scheduling/scheduling.js
 var util = require('../../utils/util.js');
 Date.prototype.AddDays = function(days) {
@@ -7,27 +9,21 @@ Date.prototype.AddDays = function(days) {
 };
 var weeksArray = []; //表格排班数据
 var weekMonday; //每周的星期一
+
+// var reserve_list = new Array()
+
+
 Page({
   data: {
+    labId: 0,
+    weekNum: 0,
     weekInfo: [],
-    weekIndex: 0,
+    weekIndex: 0, //当前第几周
     dateArray: [],
-    sch_list: {
-      time_arr: ["第一节", "第二节", "第三节", "第四节", "第五节", "第六节", "第七节", "第八节", "第九节", "第十节"],
-      arr_1: [0, 0, 1, 1, 0, 0, 0],
-      arr_2: [0, 1, 0, 1, 0, 0, 1],
-      arr_3: [1, 0, 1, 0, 0, 0, 1],
-      arr_4: [0, 1, 1, 1, 0, 0, 1],
-      arr_5: [0, 1, 0, 1, 0, 0, 1],
-      arr_6: [1, 1, 0, 1, 0, 0, 1],
-      arr_7: [0, 0, 1, 1, 0, 0, 1],
-      arr_8: [0, 1, 1, 1, 0, 0, 1],
-      arr_9: [1, 1, 1, 1, 0, 0, 1],
-      arr_10: [0, 1, 1, 1, 0, 0, 1],
-    }
+    time_arr: ["第一节", "第二节", "第三节", "第四节", "第五节", "第六节", "第七节", "第八节", "第九节", "第十节"],
+    reserve_list:[] //当前周的预约情况
   },
   bindPickerChange: function(e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       weekIndex: e.detail.value,
     })
@@ -44,6 +40,7 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function(options) {
+    var that = this
     let weekInfo = getSelectDate();
     let currentDate = new Date();
     weekMonday = currentDate.getDay() == 1 ? currentDate : currentDate.AddDays(1 - (currentDate.getDay() == 0 ? 7 : currentDate.getDay()))
@@ -52,7 +49,28 @@ Page({
     this.setData({
       weekInfo: weekInfo,
       dateArray: daysArray,
-      weekIndex: numOfWeek - 1
+      weekIndex: numOfWeek - 1,
+      labId: options.labId,
+    })
+    // console.log(currentDate.getFullYear() + util.formatNumber(this.data.weekIndex))
+    //请求当前周预约情况
+    wx.request({
+      url: app.globalData.base_url + '/api/getReserveOneWeek',
+      method: "POST",
+      data: {
+        labId: this.data.labId,
+        weekNum: currentDate.getFullYear() + util.formatNumber(this.data.weekIndex)
+      },
+      success: function (res) {
+        console.log(res)
+        var reserve = []
+        for (var reserveDay of res.data.data.sectionWeek) {
+          reserve.push(reserveDay)
+        }
+        that.setData({
+          reserve_list: reserve
+        })
+      }
     })
   },
   nextToWeek: function() {
@@ -82,7 +100,52 @@ Page({
       dateArray: daysArray,
       weekIndex: numOfWeek - 1
     })
-  }
+  },
+  tapDialog: function (e) {
+    var contentArr = new Array()
+    var reserveDay = this.data.reserve_list[e.currentTarget.id]
+    for (var reserveIndex in reserveDay){
+      var contentItem = {}
+      contentItem.name = this.data.time_arr[reserveIndex]
+      contentItem.checked = reserveDay[reserveIndex]
+      contentArr.push(contentItem)
+    }
+    console.log(contentArr)
+    this.dialog.setData({
+      title: '预约',
+      content: contentArr,
+      cancelText: '取消',
+      okText: '确定'
+    });
+    this.dialog.show();
+  },
+  cancelEvent: function () {
+    console.log(this.dialog.data.cancelText)
+    this.dialog.close()
+  },
+  okEvent: function () {
+    console.log(this.dialog.data.content)
+    var changeOpened = this.dialog.data.content
+    var retOpened = []
+    for (var changeItem of changeOpened){
+      retOpened.push(changeItem.checked)
+    }
+    wx.request({
+      url: '',
+      method:"POST",
+      data:{
+
+        retOpened: retOpened
+      },
+      success:function(res){
+        console.log(res)
+      }
+    })
+    this.dialog.close()
+  },
+  onReady: function () {
+    this.dialog = this.selectComponent('#dialog');
+  },
 })
 //获取select的内容
 var getSelectDate = function() {
@@ -117,7 +180,6 @@ var getSevenDays = function(Monday) {
     newDate.setDate(date.getDate());
     let m = (newDate.getMonth() + 1) < 10 ? "0" + (newDate.getMonth() + 1) : (newDate.getMonth() + 1);
     let d = newDate.getDate() < 10 ? "0" + newDate.getDate() : newDate.getDate();
-
     let time = newDate.getFullYear() + "-" + m + "-" + d;
     let dayStr = m + "-" + d;
 

@@ -5,16 +5,16 @@ const app = getApp()
 Page({
   data: {
     categories: [], //教学楼类别
-    activeCategoryId: 0,  //正在点击的教学楼id
-    labs:[],  //实验室数据
+    activeCategoryId: 0, //正在点击的教学楼id
+    labs: [], //实验室数据
     userInfo: {},
     hasUserInfo: false,
     canIUse: wx.canIUse('button.open-type.getUserInfo'),
-    loadingMoreHidden:true, //是否能加载更多
-    curPage: 1,  //当前页数
-    pageSize: 20 //一页的数据量
+    loadingMoreHidden: true, //是否能加载更多
+    curPage: 1, //当前页数
+    pageSize: 20, //一页的数据量
   },
-  onLoad: function () {
+  onLoad: function() {
     var that = this
     if (app.globalData.userInfo) {
       this.setData({
@@ -44,16 +44,16 @@ Page({
       })
     }
     //获取教学楼类型
-    wx.request({ 
+    wx.request({
       url: app.globalData.base_url + "/api/getBuildingList",
-      method:'GET',
+      method: 'GET',
       header: {
-        "Content-Type":"application/json"
+        "Content-Type": "application/json"
       },
-      success:function(res){
-        if (res.data.retcode == 0){
+      success: function(res) {
+        if (res.data.retcode == 0) {
           let categories = []
-          for (let category of res.data.data){
+          for (let category of res.data.data) {
             categories.push(category)
           }
           that.setData({
@@ -62,12 +62,12 @@ Page({
             curPage: 1
           })
         }
-        that.getLabsList(that.data.activeCategoryId);        
+        that.getLabsList(that.data.activeCategoryId);
       }
     })
   },
   //获取用户信息
-  getUserInfo: function (e) {
+  getUserInfo: function(e) {
     console.log(e)
     app.globalData.userInfo = e.detail.userInfo
     this.setData({
@@ -81,7 +81,7 @@ Page({
     console.log(e.detail.rawData)
   },
   //点击制定教学楼
-  tabClick:function(e){
+  tabClick: function(e) {
     this.setData({
       activeCategoryId: e.currentTarget.id
     });
@@ -89,62 +89,83 @@ Page({
   },
 
   //获取教学楼对应的所有实验室
-  getLabsList: function (categoryId,append){
+  getLabsList: function(categoryId, append) {
     var that = this
     wx.showLoading({
       title: 'Loading',
-      mask:true
+      mask: true
     })
     wx.request({
       url: app.globalData.base_url + '/api/getLabsList',
-      method:'POST',
-      data:{
+      method: 'POST',
+      data: {
         id: categoryId,
         // page:this.data.curPage,
         // pagsSize:this.data.pageSize
       },
-      success:function(res){
+      success: function(res) {
         wx.hideLoading()
-        if(res.data.retcode == 0){
+        if (res.data.retcode == 0) {
           let labs = []
-          if(append){
+          if (append) {
             labs = that.data.labs
           }
-          for(let lab of res.data.data){
+          for (let lab of res.data.data) {
             labs.push(lab)
           }
           that.setData({
-            labs:labs
+            labs: labs
           })
-        }else{
+        } else {
           that.setData({
-            loadingMoreHidden:false
+            loadingMoreHidden: false
           })
           return
         }
       },
-      error:function(error){
+      error: function(error) {
 
       }
     })
   },
 
-  getLabDetail:function(e){
+  getLabDetail: function(e) {
     wx.navigateTo({
       url: '../../pages/labDetail/labDetail?id=' + e.currentTarget.id,
     })
   },
   //立即预约
-  order: function () {
+  order: function(e) {
+    console.log(e)
     wx.navigateTo({
-      url: '../../pages/scheduling/scheduling',
+      url: '../../pages/scheduling/scheduling?labId=' + e.currentTarget.id
     })
+  },
+  tapDialog:function(){
+    this.dialog.setData({
+      title: '预约',
+      content: '内容',
+      cancelText: '取消',
+      okText: '确定'
+    });
+    this.dialog.show();
+  },
+  cancelEvent:function(){
+    console.log(this.dialog.data.cancelText)
+    this.dialog.close()
+  },
+  okEvent:function(){
+    console.log(this.dialog.data.okText)
+    this.dialog.close()
+  },
+  onReady:function(){
+    this.dialog = this.selectComponent('#dialog');
   },
 
   //到最底端
-  onReachBottom:function(){
+  onReachBottom: function() {
     this.setData({
-      curPage:this.data.curPage + 1
+      curPage: this.data.curPage + 1
     })
     this.getLabsList(this.data.activeCategoryId, true)
   }

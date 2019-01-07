@@ -25,7 +25,7 @@ Page({
         id: id
       },
       success:function(res){
-        console.log(res.data.data[0])
+        // console.log(res.data.data[0])
         that.setData({
           labDetail: res.data.data[0]
         })
@@ -83,9 +83,9 @@ Page({
 
   },
 
-  order:function(){
+  order:function(e){
     wx.navigateTo({
-      url: '../../pages/scheduling/scheduling',
+      url: '../../pages/scheduling/scheduling?labId=' + this.data.labDetail.id
     })
   }
 })

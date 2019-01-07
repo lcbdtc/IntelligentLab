@@ -1,12 +1,12 @@
 {
   "pages": [
-    "pages/scheduling/scheduling",
     "pages/index/index",
+    "pages/scheduling/scheduling",
     "pages/labDetail/labDetail",
     "pages/scan/scan",
     "pages/my/my",
     "pages/userInfo/userInfo",
-    "pages/myCourse/myCourse"
+    "pages/myCourse/myCourse" 
   ],
   "window": {
     "backgroundTextStyle": "light",
