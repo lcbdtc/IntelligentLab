@@ -9,9 +9,9 @@
   <view class='weui-cells'>
     <view class='weui-cell weui-cell_access' bindtap='navToUserInfo'>
       <view class='weui-cell__bd'>
-        <picker bindchange="bindPickerChange" value="{{weekIndex}}" range="{{weekInfo}}" range-key="weekItem">
+        <picker bindchange="bindPickerChange" value="{{weekPicker}}" range="{{weekInfo}}" range-key="weekItem">
           <view class="picker">
-            {{weekInfo[weekIndex].weekItem}}
+            {{weekInfo[weekPicker].weekItem}}
           </view>
         </picker>
       </view>
@@ -54,7 +54,7 @@
       </view>
     </view>
   </scroll-view>
-  <dialog id="dialog" bind:cancelEvent="cancelEvent" bind:okEvent="okEvent"></dialog>
+  <dialog id="dialog" bind:cancelEvent="cancelEvent" bind:okEvent="okEvent" class="dialog"></dialog>
 
 
 </view>

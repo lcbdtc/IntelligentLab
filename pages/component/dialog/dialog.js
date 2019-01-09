@@ -12,6 +12,14 @@ Component({
       type: Array,
       value: '弹窗内容'
     },
+    numberOfUser:{
+      type:String,
+      value:'0'
+    },
+    reson:{
+      type:String,
+      value:"申请理由"
+    },
     cancelText: {
       type: String,
       value: '取消'
@@ -26,7 +34,11 @@ Component({
    * 组件的初始数据
    */
   data: {
-    isShow:false
+    isShow:false,
+    content1:[]
+  },
+  attached(){
+    console.log(this.properties.content)
   },
 
   /**
@@ -60,6 +72,16 @@ Component({
         }
       }
       this.setData(changed)
+    },
+    bindKeyInput:function(e){
+      this.setData({
+        numberOfUser: e.detail.value
+      })
+    },
+    bindTextAreaInput:function(e){
+      this.setData({
+        reson:e.detail.value
+      })
     }
   }
 })

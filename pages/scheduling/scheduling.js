@@ -9,28 +9,29 @@ Date.prototype.AddDays = function(days) {
 };
 var weeksArray = []; //表格排班数据
 var weekMonday; //每周的星期一
-
-// var reserve_list = new Array()
-
-
+var year = new Date().getFullYear()
+var curDate = ""
+var labId = 0
 Page({
   data: {
     labId: 0,
-    weekNum: 0,
+    weekNum: 0,//发送到后台年份和周数组合：201901
     weekInfo: [],
     weekIndex: 0, //当前第几周
+    weekPicker:0,//picker周
     dateArray: [],
     time_arr: ["第一节", "第二节", "第三节", "第四节", "第五节", "第六节", "第七节", "第八节", "第九节", "第十节"],
     reserve_list:[] //当前周的预约情况
   },
   bindPickerChange: function(e) {
+    console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
-      weekIndex: e.detail.value,
+      weekPicker: e.detail.value,
     })
-    let year = new Date().getFullYear()
+    
     let firstDayOfYear = new Date(year, 0, 1)
     let monday = firstDayOfYear.getDay() == 1 ? firstDayOfYear : firstDayOfYear.AddDays(8 - (firstDayOfYear.getDay() == 0 ? 7 : firstDayOfYear.getDay()))
-    weekMonday = this.data.weekIndex == 0 ? monday : monday.AddDays(7 * this.data.weekIndex) //获取对应周的星期一
+    weekMonday = this.data.weekPicker == 0 ? monday : monday.AddDays(7 * this.data.weekPicker) //获取对应周的星期一
     let daysArray = getSevenDays(weekMonday)
     this.setData({
       dateArray: daysArray
@@ -41,17 +42,23 @@ Page({
    */
   onLoad: function(options) {
     var that = this
+    if (options != undefined){
+      labId = options.labId
+    }
     let weekInfo = getSelectDate();
     let currentDate = new Date();
     weekMonday = currentDate.getDay() == 1 ? currentDate : currentDate.AddDays(1 - (currentDate.getDay() == 0 ? 7 : currentDate.getDay()))
     let daysArray = getSevenDays(weekMonday);
     let numOfWeek = getWeekOfYear();
+
     this.setData({
       weekInfo: weekInfo,
       dateArray: daysArray,
-      weekIndex: numOfWeek - 1,
-      labId: options.labId,
+      weekIndex: numOfWeek-1,
+      weekPicker: numOfWeek-2,
+      labId: labId,
     })
+    // console.log(this.data.weekPicker)
     // console.log(currentDate.getFullYear() + util.formatNumber(this.data.weekIndex))
     //请求当前周预约情况
     wx.request({
@@ -62,7 +69,6 @@ Page({
         weekNum: currentDate.getFullYear() + util.formatNumber(this.data.weekIndex)
       },
       success: function (res) {
-        console.log(res)
         var reserve = []
         for (var reserveDay of res.data.data.sectionWeek) {
           reserve.push(reserveDay)
@@ -101,16 +107,18 @@ Page({
       weekIndex: numOfWeek - 1
     })
   },
+  //弹出预约对话框
   tapDialog: function (e) {
     var contentArr = new Array()
     var reserveDay = this.data.reserve_list[e.currentTarget.id]
+    curDate = weeksArray[e.currentTarget.id].date_text //01-08
     for (var reserveIndex in reserveDay){
       var contentItem = {}
       contentItem.name = this.data.time_arr[reserveIndex]
       contentItem.checked = reserveDay[reserveIndex]
       contentArr.push(contentItem)
     }
-    console.log(contentArr)
+    // console.log(contentArr)
     this.dialog.setData({
       title: '预约',
       content: contentArr,
@@ -124,21 +132,39 @@ Page({
     this.dialog.close()
   },
   okEvent: function () {
-    console.log(this.dialog.data.content)
+    var that = this
+    // console.log(year + "-" + curDate)
+    // console.log(this.dialog.data.content)
     var changeOpened = this.dialog.data.content
     var retOpened = []
     for (var changeItem of changeOpened){
       retOpened.push(changeItem.checked)
     }
+    
     wx.request({
-      url: '',
+      url: app.globalData.base_url + '/api/changeReserve',
       method:"POST",
       data:{
-
-        retOpened: retOpened
+        labId: this.data.labId,
+        date: year + "-" + curDate,
+        retOpened: retOpened,
+        numberOfUser: this.dialog.data.numberOfUser,
+        reson:this.dialog.data.reson
       },
       success:function(res){
-        console.log(res)
+        if(res.data.retcode == 0){
+          wx.showToast({
+            title: '预约成功',
+            // duration: 2,
+            // mask: true,
+            success: function(res) {
+              console.log("success")
+              that.onLoad()
+            },
+            fail: function(res) {},
+            complete: function(res) {},
+          })
+        }
       }
     })
     this.dialog.close()

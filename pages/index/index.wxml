@@ -29,10 +29,6 @@
     </view>
   </view>
 
-  <view>
-    <button bindtap="tapDialog">显示弹出框</button>
-    <dialog id="dialog" bind:cancelEvent="cancelEvent" bind:okEvent="okEvent"></dialog>
-  </view>
   <!-- <button wx:if="{{canIUse}}" open-type='getUserInfo' bindgetuserinfo='onGotUserInfo'>授权登陆</button>
 <view wx:else>请升级微信</view> -->
 
