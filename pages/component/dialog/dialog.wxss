@@ -1,6 +1,5 @@
 /* pages/component/dialog/dialog.wxss */
 
-
 .ys-mask {
   position: fixed;
   z-index: 1000;
@@ -12,17 +11,15 @@
 }
 
 .ys-dialog {
-  position: fixed;
   z-index: 5000;
   width: 80%;
-  height:95%;
+  height: 95%;
   max-width: 300px;
   top: 50%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
   background-color: #fff;
-  /* text-align: center; */
   border-radius: 3px;
   overflow: hidden;
 }
@@ -145,7 +142,7 @@
   display: flex;
   margin-bottom: 20rpx;
   background-color: #fff;
-  padding:20rpx;
+  padding: 20rpx;
 }
 
 .reserveNum-text {
@@ -154,14 +151,20 @@
 }
 
 .reserveNum-input {
-  width:50%;
+  width: 50%;
 }
 
-.reson{
+.reson {
   padding-top: 5rpx;
   background-color: #fff;
 }
-.reson-input{
+
+.reson-text {
+  padding-top: 5rpx;
+  width: 180rpx;
+}
+
+.reson-input {
   width: 100%;
   background-color: #fff;
 }

@@ -8,7 +8,7 @@
       <checkbox-group class="dialog-group" bindchange="checkboxChange">
         <view class="label" wx:for="{{content}}" wx:key="{{index}}">
           <label class="label-item">
-            <checkbox hidden value="{{item.name}}" checked="{{item.checked}}" ></checkbox>
+            <checkbox hidden value="{{item.name}}" checked="{{item.checked}}"></checkbox>
             <view class="label__icon">
               <view class="label__icon-checked" style="opacity:{{item.checked ? 1: 0}}"></view>
             </view>
@@ -24,7 +24,7 @@
 
       <view class='reson'>
         <view class='reson-text'>申请理由：</view>
-        <textarea bindinput="bindTextAreaInput" auto-focus class='reson-textarea'/>
+        <textarea fixed bindinput="bindTextAreaInput" class='reson-textarea'/>
       </view>
 
     </view>

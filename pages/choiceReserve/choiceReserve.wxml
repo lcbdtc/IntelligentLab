@@ -1,0 +1,28 @@
+<!--pages/choiceReserve/choiceReserve.wxml-->
+<view class='container'>
+    <view class="dialog-content">
+      <view>
+        <checkbox-group bindchange="checkboxChange" class='checkboxGroup'>
+          <label class="checkbox" wx:for="{{content}}" wx:key="index">
+            <checkbox value="{{item.name}}" checked="{{item.checked}}" disabled="{{item.disabled}}" /> {{item.name}}
+          </label>
+        </checkbox-group>
+      </view>
+      
+      <view class="reserveNum">
+        <view class='reserveNum-text'>预约人数：</view>
+        <input maxlength="3" type='digit' bindinput='bindKeyInput' placeholder="请输入预约人数" class='reserveNum-input' />
+      </view>
+
+      <view class='reson'>
+        <view class='reson-text'>申请理由：</view>
+        <textarea bindinput="bindTextAreaInput" class='reson-textarea' />
+      </view>
+
+
+      <view class='bottom-btn'>
+        <button class="btn" type='primary'  bindtap='tapOk'>确认预约</button>
+      </view>
+
+    </view>
+</view>

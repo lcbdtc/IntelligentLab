@@ -29,8 +29,8 @@
     </view>
   </view>
 
-  <!-- <button wx:if="{{canIUse}}" open-type='getUserInfo' bindgetuserinfo='onGotUserInfo'>授权登陆</button>
-<view wx:else>请升级微信</view> -->
+  <button wx:if="{{canIUse}}" open-type='getUserInfo' bindgetuserinfo='onGotUserInfo'>授权登陆</button>
+<view wx:else>请升级微信</view>
 
 
   <view class='weui-loadmore weui-loadmore_line' hidden='{{loadingMoreHidden ? true : false}}'>

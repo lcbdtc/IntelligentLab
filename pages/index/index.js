@@ -141,26 +141,26 @@ Page({
       url: '../../pages/scheduling/scheduling?labId=' + e.currentTarget.id
     })
   },
-  tapDialog:function(){
-    this.dialog.setData({
-      title: '预约',
-      content: '内容',
-      cancelText: '取消',
-      okText: '确定'
-    });
-    this.dialog.show();
-  },
-  cancelEvent:function(){
-    console.log(this.dialog.data.cancelText)
-    this.dialog.close()
-  },
-  okEvent:function(){
-    console.log(this.dialog.data.okText)
-    this.dialog.close()
-  },
-  onReady:function(){
-    this.dialog = this.selectComponent('#dialog');
-  },
+  // tapDialog:function(){
+  //   this.dialog.setData({
+  //     title: '预约',
+  //     content: '内容',
+  //     cancelText: '取消',
+  //     okText: '确定'
+  //   });
+  //   this.dialog.show();
+  // },
+  // cancelEvent:function(){
+  //   console.log(this.dialog.data.cancelText)
+  //   this.dialog.close()
+  // },
+  // okEvent:function(){
+  //   console.log(this.dialog.data.okText)
+  //   this.dialog.close()
+  // },
+  // onReady:function(){
+  //   this.dialog = this.selectComponent('#dialog');
+  // },
 
   //到最底端
   onReachBottom: function() {

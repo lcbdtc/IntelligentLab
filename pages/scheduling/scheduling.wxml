@@ -43,7 +43,7 @@
         </view>
 
         <block wx:for="{{reserve_list}}" wx:key="{{index}}">
-          <view class='table_item' bindtap="tapDialog" id="{{index}}">
+          <view class='table_item' bindtap="tapChoice" id="{{index}}">
             <block wx:for="{{item}}" wx:key="{{index}}">
               <view class='td'>
                 <view class="centerclass cell_label">{{item?'已预约':'空闲'}}</view>
@@ -54,7 +54,7 @@
       </view>
     </view>
   </scroll-view>
-  <dialog id="dialog" bind:cancelEvent="cancelEvent" bind:okEvent="okEvent" class="dialog"></dialog>
+
 
 
 </view>

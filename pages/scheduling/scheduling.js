@@ -15,20 +15,19 @@ var labId = 0
 Page({
   data: {
     labId: 0,
-    weekNum: 0,//发送到后台年份和周数组合：201901
+    weekNum: 0, //发送到后台年份和周数组合：201901
     weekInfo: [],
     weekIndex: 0, //当前第几周
-    weekPicker:0,//picker周
+    weekPicker: 0, //picker周
     dateArray: [],
     time_arr: ["第一节", "第二节", "第三节", "第四节", "第五节", "第六节", "第七节", "第八节", "第九节", "第十节"],
-    reserve_list:[] //当前周的预约情况
+    reserve_list: [] //当前周的预约情况
   },
   bindPickerChange: function(e) {
-    console.log('picker发送选择改变，携带值为', e.detail.value)
     this.setData({
       weekPicker: e.detail.value,
     })
-    
+
     let firstDayOfYear = new Date(year, 0, 1)
     let monday = firstDayOfYear.getDay() == 1 ? firstDayOfYear : firstDayOfYear.AddDays(8 - (firstDayOfYear.getDay() == 0 ? 7 : firstDayOfYear.getDay()))
     weekMonday = this.data.weekPicker == 0 ? monday : monday.AddDays(7 * this.data.weekPicker) //获取对应周的星期一
@@ -42,7 +41,7 @@ Page({
    */
   onLoad: function(options) {
     var that = this
-    if (options != undefined){
+    if (options != undefined) {
       labId = options.labId
     }
     let weekInfo = getSelectDate();
@@ -54,8 +53,8 @@ Page({
     this.setData({
       weekInfo: weekInfo,
       dateArray: daysArray,
-      weekIndex: numOfWeek-1,
-      weekPicker: numOfWeek-2,
+      weekIndex: numOfWeek - 1,
+      weekPicker: numOfWeek - 2,
       labId: labId,
     })
     // console.log(this.data.weekPicker)
@@ -68,7 +67,7 @@ Page({
         labId: this.data.labId,
         weekNum: currentDate.getFullYear() + util.formatNumber(this.data.weekIndex)
       },
-      success: function (res) {
+      success: function(res) {
         var reserve = []
         for (var reserveDay of res.data.data.sectionWeek) {
           reserve.push(reserveDay)
@@ -78,6 +77,9 @@ Page({
         })
       }
     })
+  },
+  onShow(){
+    this.onLoad()
   },
   nextToWeek: function() {
     weekMonday = weekMonday.AddDays(7)
@@ -108,70 +110,86 @@ Page({
     })
   },
   //弹出预约对话框
-  tapDialog: function (e) {
+  // tapDialog: function (e) {
+  //   var contentArr = new Array()
+  //   var reserveDay = this.data.reserve_list[e.currentTarget.id]
+  //   curDate = weeksArray[e.currentTarget.id].date_text //01-08
+  //   for (var reserveIndex in reserveDay){
+  //     var contentItem = {}
+  //     contentItem.name = this.data.time_arr[reserveIndex]
+  //     contentItem.checked = reserveDay[reserveIndex]
+  //     contentArr.push(contentItem)
+  //   }
+  //   // console.log(contentArr)
+  //   this.dialog.setData({
+  //     title: '预约',
+  //     content: contentArr,
+  //     cancelText: '取消',
+  //     okText: '确定'
+  //   });
+  //   this.dialog.show();
+  // },
+  // cancelEvent: function () {
+  //   console.log(this.dialog.data.cancelText)
+  //   this.dialog.close()
+  // },
+  // okEvent: function () {
+  //   var that = this
+  //   // console.log(year + "-" + curDate)
+  //   // console.log(this.dialog.data.content)
+  //   var changeOpened = this.dialog.data.content
+  //   var retOpened = []
+  //   for (var changeItem of changeOpened){
+  //     retOpened.push(changeItem.checked)
+  //   }  
+  //   wx.request({
+  //     url: app.globalData.base_url + '/api/changeReserve',
+  //     method:"POST",
+  //     data:{
+  //       labId: this.data.labId,
+  //       date: year + "-" + curDate,
+  //       retOpened: retOpened,
+  //       numberOfUser: this.dialog.data.numberOfUser,
+  //       reson:this.dialog.data.reson
+  //     },
+  //     success:function(res){
+  //       if(res.data.retcode == 0){
+  //         wx.showToast({
+  //           title: '预约成功',
+  //           // duration: 2,
+  //           // mask: true,
+  //           success: function(res) {
+  //             console.log("success")
+  //             that.onLoad()
+  //           },
+  //           fail: function(res) {},
+  //           complete: function(res) {},
+  //         })
+  //       }
+  //     }
+  //   })
+  //   this.dialog.close()
+  // },
+  // onReady: function () {
+  //   this.dialog = this.selectComponent('#dialog');
+  // },
+  tapChoice: function(e) {
     var contentArr = new Array()
     var reserveDay = this.data.reserve_list[e.currentTarget.id]
     curDate = weeksArray[e.currentTarget.id].date_text //01-08
-    for (var reserveIndex in reserveDay){
+    for (var reserveIndex in reserveDay) {
       var contentItem = {}
       contentItem.name = this.data.time_arr[reserveIndex]
       contentItem.checked = reserveDay[reserveIndex]
+      contentItem.disabled = reserveDay[reserveIndex]
       contentArr.push(contentItem)
     }
-    // console.log(contentArr)
-    this.dialog.setData({
-      title: '预约',
-      content: contentArr,
-      cancelText: '取消',
-      okText: '确定'
-    });
-    this.dialog.show();
-  },
-  cancelEvent: function () {
-    console.log(this.dialog.data.cancelText)
-    this.dialog.close()
-  },
-  okEvent: function () {
-    var that = this
-    // console.log(year + "-" + curDate)
-    // console.log(this.dialog.data.content)
-    var changeOpened = this.dialog.data.content
-    var retOpened = []
-    for (var changeItem of changeOpened){
-      retOpened.push(changeItem.checked)
-    }
+    console.log(contentArr)
     
-    wx.request({
-      url: app.globalData.base_url + '/api/changeReserve',
-      method:"POST",
-      data:{
-        labId: this.data.labId,
-        date: year + "-" + curDate,
-        retOpened: retOpened,
-        numberOfUser: this.dialog.data.numberOfUser,
-        reson:this.dialog.data.reson
-      },
-      success:function(res){
-        if(res.data.retcode == 0){
-          wx.showToast({
-            title: '预约成功',
-            // duration: 2,
-            // mask: true,
-            success: function(res) {
-              console.log("success")
-              that.onLoad()
-            },
-            fail: function(res) {},
-            complete: function(res) {},
-          })
-        }
-      }
+    wx.navigateTo({
+      url: '../../pages/choiceReserve/choiceReserve?labId=' + labId + '&content=' + JSON.stringify(contentArr) + '&curDate=' + curDate,
     })
-    this.dialog.close()
-  },
-  onReady: function () {
-    this.dialog = this.selectComponent('#dialog');
-  },
+  }
 })
 //获取select的内容
 var getSelectDate = function() {

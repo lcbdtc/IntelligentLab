@@ -6,7 +6,8 @@
     "pages/scan/scan",
     "pages/my/my",
     "pages/userInfo/userInfo",
-    "pages/myCourse/myCourse" 
+    "pages/myCourse/myCourse",
+    "pages/choiceReserve/choiceReserve"
   ],
   "window": {
     "backgroundTextStyle": "light",

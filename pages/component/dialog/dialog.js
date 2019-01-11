@@ -35,10 +35,6 @@ Component({
    */
   data: {
     isShow:false,
-    content1:[]
-  },
-  attached(){
-    console.log(this.properties.content)
   },
 
   /**
@@ -63,6 +59,7 @@ Component({
     },
     checkboxChange:function(e){
       const checked = e.detail.value
+      console.log(checked)
       const changed = {}
       for (let i = 0; i < this.data.content.length; i++) {
         if (checked.indexOf(this.data.content[i].name) !== -1) {
