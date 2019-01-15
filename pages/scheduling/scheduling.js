@@ -24,6 +24,8 @@ Page({
     reserve_list: [] //当前周的预约情况
   },
   bindPickerChange: function(e) {
+    console.log(e.detail.value)
+    var that = this
     this.setData({
       weekPicker: e.detail.value,
     })
@@ -33,8 +35,10 @@ Page({
     weekMonday = this.data.weekPicker == 0 ? monday : monday.AddDays(7 * this.data.weekPicker) //获取对应周的星期一
     let daysArray = getSevenDays(weekMonday)
     this.setData({
-      dateArray: daysArray
+      dateArray: daysArray,
+      weekIndex: parseInt(e.detail.value) + 1
     })
+    this.getReserve()
   },
   /**
    * 生命周期函数--监听页面加载
@@ -44,12 +48,13 @@ Page({
     if (options != undefined) {
       labId = options.labId
     }
+    console.log(labId)
     let weekInfo = getSelectDate();
     let currentDate = new Date();
     weekMonday = currentDate.getDay() == 1 ? currentDate : currentDate.AddDays(1 - (currentDate.getDay() == 0 ? 7 : currentDate.getDay()))
     let daysArray = getSevenDays(weekMonday);
     let numOfWeek = getWeekOfYear();
-
+    
     this.setData({
       weekInfo: weekInfo,
       dateArray: daysArray,
@@ -57,17 +62,21 @@ Page({
       weekPicker: numOfWeek - 2,
       labId: labId,
     })
-    // console.log(this.data.weekPicker)
-    // console.log(currentDate.getFullYear() + util.formatNumber(this.data.weekIndex))
     //请求当前周预约情况
+    this.getReserve()
+  },
+  getReserve:function(){
+    var that = this
+    console.log(this.data.weekIndex)
+    console.log(util.formatNumber(this.data.weekIndex))
     wx.request({
       url: app.globalData.base_url + '/api/getReserveOneWeek',
       method: "POST",
       data: {
         labId: this.data.labId,
-        weekNum: currentDate.getFullYear() + util.formatNumber(this.data.weekIndex)
+        weekNum: new Date().getFullYear() + util.formatNumber(this.data.weekIndex)
       },
-      success: function(res) {
+      success: function (res) {
         var reserve = []
         for (var reserveDay of res.data.data.sectionWeek) {
           reserve.push(reserveDay)
@@ -87,8 +96,10 @@ Page({
     let daysArray = getSevenDays(weekMonday);
     this.setData({
       dateArray: daysArray,
-      weekIndex: this.data.weekIndex + 1
+      weekIndex: this.data.weekIndex + 1,
+      weekPicker: this.data.weekIndex,
     })
+    this.getReserve()
   },
   lastToWeek: function() {
     weekMonday = weekMonday.AddDays(-7)
@@ -96,8 +107,10 @@ Page({
     let daysArray = getSevenDays(weekMonday);
     this.setData({
       dateArray: daysArray,
-      weekIndex: this.data.weekIndex - 1
+      weekIndex: this.data.weekIndex - 1,
+      weekPicker: this.data.weekIndex - 2,
     })
+    this.getReserve()
   },
   thisToWeek: function() {
     let currentDate = new Date();
@@ -106,8 +119,10 @@ Page({
     let numOfWeek = getWeekOfYear();
     this.setData({
       dateArray: daysArray,
-      weekIndex: numOfWeek - 1
+      weekIndex: numOfWeek - 1,
+      weekPicker: numOfWeek - 2
     })
+    this.getReserve()
   },
   //弹出预约对话框
   // tapDialog: function (e) {
